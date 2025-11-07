@@ -28,11 +28,16 @@ class BookResultViewModel @Inject constructor(
 
     private fun loadBook() {
         viewModelScope.launch {
-            try {
-            _uiState.value = BookUiState.exito(_repository.searchBooks(busqueda))
-            } catch (e: Exception) {
+           val lista : List<Book> = _repository.searchBooks(busqueda)
+            if (lista.isNotEmpty()){
+                _uiState.value = BookUiState.exito(lista)
+
+            }else{
                 _uiState.value = BookUiState.Error("No se pudieron cargar los libros.")
+
             }
+
+
         }
     }
 

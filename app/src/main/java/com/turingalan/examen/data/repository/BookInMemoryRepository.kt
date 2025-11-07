@@ -107,27 +107,22 @@ class BookInMemoryRepository
     override suspend fun searchBooks(search: String): List<Book> {
         delay(2000L)
         val list:MutableList<Book> = mutableListOf()
-        val bookId : Book? = _books.find { it.isbn.contains(search) }
-        if (bookId!=null){
-            list.add(bookId)
-        }
+        val bookId : List<Book> = _books.filter { book -> book.isbn.contains(search, ignoreCase = true) }
 
-        val bookTitle : Book? = _books.find { it.title.contains(search) }
-        if (bookTitle!=null){
-            list.add(bookTitle)
-        }
 
-        val bookAuthor : Book? = _books.find { it.author.contains(search) }
-        if (bookAuthor!=null){
-            list.add(bookAuthor)
-        }
+        val bookTitle :  List<Book> = _books.filter { book -> book.title.contains(search, ignoreCase = true) }
 
-        val bookEditorial : Book? = _books.find { it.editorial.contains(search)  }
-        if (bookEditorial!=null){
-            list.add(bookEditorial)
-        }
 
-        return list
+        val bookAuthor :  List<Book> = _books.filter { book -> book.author.contains(search, ignoreCase = true) }
+
+
+        val bookEditorial :  List<Book>  = _books.filter { book -> book.editorial.contains(search, ignoreCase = true)  }
+        list.addAll(bookId)
+        list.addAll(bookTitle)
+        list.addAll(bookAuthor)
+        list.addAll(bookEditorial)
+
+        return list.distinct()
     }
 
     override suspend fun readOne(id: Long) = _books.firstOrNull { book -> book.id == id }
