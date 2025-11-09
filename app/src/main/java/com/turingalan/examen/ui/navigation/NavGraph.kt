@@ -42,13 +42,14 @@ fun NavGraph(
                     }
                 )
             }
-            composable("detail/{id}",
+            composable("detail/{result}/{id}",
                 arguments = listOf(navArgument("id"){type = NavType.LongType})
             ){ backStackEntry ->
                 val id = backStackEntry.arguments?.getLong("id")?:0L
+                val result = backStackEntry.arguments?.getString("result")?:""
                 BookDetailScreen(bookId = id,
                     onNavegationBack = {
-                        navController.navigate("result")
+                        navController.navigate("result/$result")
                     })
 
             }
@@ -59,17 +60,13 @@ fun NavGraph(
                     val resultado = backStackEntry.arguments?.getString("result")?:""
                 BookResult(
                     onShowDetail = { id->
-                        navController.navigate("detail/$id")
+                        navController.navigate("detail/$resultado/$id")
                     },
                     onNavigateBack = {
                         navController.navigate(Route.Search.route)
                     }
                 )
             }
-
-
-
-
         }
     }
 }
@@ -85,60 +82,3 @@ sealed class Route(val route: String) {
     @Serializable
     data class Detail(val id: Int): Route(route = "PokemonDetail/{$id}")
 }
-
-/*
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun NavGraph() {
-    val navController = rememberNavController()
-    val startDestination = Route.List.route // Usamos el string de la ruta
-
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text(text = "Pokemons") }
-            )
-        },//habria que cambiar el bottom bar para que solo aparezca el boton en detailScreen y ListScreen pasandole una funcion para que se redirija a pokemon form
-        bottomBar ={
-            Button(onClick = { navController.navigate(Route.Form.route) }) {
-                Text("+")
-            }
-        }
-    ) { paddingValues ->
-        Modifier.padding(paddingValues)
-
-
-        NavHost(
-            navController = navController,
-            startDestination = startDestination
-        ) {
-            // Pantalla de la lista
-            composable(Route.List.route) {
-                PokemonList(
-                    onShowDetail = { id ->
-                        navController.navigate("PokemonDetail/$id")
-                    }
-                )
-            }
-            composable(Route.Form.route) {
-                TodoCreateScreen(
-                    onNavegationBack = {
-                        navController.navigate(Route.List.route)
-                    }
-                )
-            }
-
-
-            // Pantalla de detalle
-            composable(
-                route = "PokemonDetail/{id}",
-                arguments = listOf(navArgument("id") { type = NavType.IntType })
-            ) { backStackEntry ->
-                val id = backStackEntry.arguments?.getInt("id") ?: 0
-                PokeomDetail(
-                    pokemonId = id
-                )
-            }
-        }
-    }
-}*/

@@ -1,18 +1,24 @@
 package com.turingalan.examen.ui.results
 
+import android.graphics.Color.green
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -58,6 +64,7 @@ fun BookResult(
     }
 }
 
+@OptIn(ExperimentalMaterial3ExpressiveApi::class)
 @Composable
 fun BookResultScreen(
     books: List<Book>,
@@ -65,12 +72,27 @@ fun BookResultScreen(
     onNavigateBack: () -> Unit
 ) {
     Scaffold { paddingValues ->
+
+
         Column(modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)) {
+            Card(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(top=28.dp, start=16.dp, end = 16.dp)
+                    .height(40.dp),
+                colors =  CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.tertiaryContainer
+                )
+            ){
+                Text(modifier = Modifier.padding(8.dp),
+                    style = MaterialTheme.typography.bodyMedium,
+                    text = "Se han encontrado "+books.size+" libros")
+            }
             LazyColumn(
                 contentPadding = PaddingValues(8.dp)
             ) {
+
                 items(
                     items = books,
                     key = { it.id }

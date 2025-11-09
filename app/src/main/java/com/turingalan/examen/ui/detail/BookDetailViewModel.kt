@@ -32,42 +32,4 @@ class BookDetailViewModel  @Inject constructor(
             _uiState.value = _repository.readOne(bookId)
         }
     }
-
-
 }
-/*
-): ViewModel(){
-    private val _uiState = MutableStateFlow<List<Book>?>(null)
-    val uiState: StateFlow<List<Book>?> = _uiState.asStateFlow()
-
-    init {
-        loadBook()
-    }
-
-    private fun loadBook() {
-        viewModelScope.launch {
-            _uiState.value = _repository.readAll()
-        }
-    }
-
-}
- */
-
-/*    fun getPokemonById(id: Int) {
-        viewModelScope.launch {
-            _uiState.value = DetailUiState.New
-            delay(1000)
-            _repository.getPokemonByID(id)
-                .catch { exception ->
-                    _uiState.value = DetailUiState.Error(exception.message ?: "Error desconocido")
-                }
-                .collect { pokemon ->
-                    if (pokemon != null) {
-                        _uiState.value = DetailUiState.Loaded(pokemon)
-                    } else {
-                        _uiState.value = DetailUiState.Error("Pokémon no encontrado con id: $id")
-                    }
-                }
-        }
-
-    }*/

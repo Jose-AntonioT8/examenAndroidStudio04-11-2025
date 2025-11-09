@@ -47,15 +47,3 @@ sealed interface BookUiState {
     data class exito(val books: List<Book>) : BookUiState
     data class Error(val message: String) : BookUiState
 }
-/*
-@HiltViewModel
-class PokemonListViewModel @Inject constructor(
-    private val _repository: PokemonRepository
-) : ViewModel() {
-    val pokemons: StateFlow<List<Pokemon>> =
-        _repository.getAllPokemons()
-            .stateIn(viewModelScope, SharingStarted.Lazily, emptyList())
-}
-
-
- */
